@@ -15,18 +15,18 @@ namespace NeuralNetworks
 
         public NetworkData(NetworkSetupData setupData)
         {
-
+            // More advanced Import Method, to be tested along with Database/Problem Space Import Methods.
         }
         public NetworkData(int[] architecture, object weightSetup, object biasSetup, object activationSetup, NetworkSetupData setupData, double weightDepth = 3, double biasDepth = 2)
         {
-
+            // More advanced Import Method, to be tested along with Database/Problem Space Import Methods.
         }
         public NetworkData(int[] architecture)
         {
-
+            // More advanced Import Method, to be tested along with Database/Problem Space Import Methods.
         }
 
-
+        /* NON-FUNCTIONAL, to be tested during the Database/Problem Space Import Method phase.
         public void ReConfig(NetworkSetupData setupData)
         {
 
@@ -35,7 +35,7 @@ namespace NeuralNetworks
         public void Regenerate()
         {
 
-        }
+        }*/
 
 
         //  //
@@ -74,12 +74,10 @@ namespace NeuralNetworks
 
         public NetworkSetupData(int[] architecture, object weightInput, object biasInput, object activationInput, int[] randDepths)
         {
-
+            // More advanced Import Method, to be tested along with Database/Problem Space Import Methods.
         }
 
         public NetworkSetupData(int[] architecture, object weightInput, object biasInput, object activationInput, int weightDepth = 3, int biasDepth = 2)
             : this(architecture, weightInput, biasInput, activationInput, new int[2] { weightDepth, biasDepth }) { }
-
-
     }
 }

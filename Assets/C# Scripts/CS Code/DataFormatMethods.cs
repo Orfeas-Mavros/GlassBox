@@ -8,11 +8,15 @@ namespace NeuralNetworks
         public static Activation[] ActivationFuncs(int[] architecture, object activationInit)
         {
             int hiddenPopulation = 0;
-            for ( int L = 1; L < architecture.Length; L++)
+            for (int L = 1; L < architecture.Length; L++)
             {
                 hiddenPopulation += architecture[L];
             }
 
+            return ActivationFuncs(architecture, hiddenPopulation, activationInit);
+        }
+        public static Activation[] ActivationFuncs(int[] architecture, int hiddenPopulation, object activationInit)
+        {
             Activation[] nodeFuncs = new Activation[hiddenPopulation];
 
             if (activationInit.GetType() == typeof(Activation))
@@ -30,13 +34,13 @@ namespace NeuralNetworks
 
                 if (initActivation.Length == architecture.Length - 1)
                 {
-                    int index = 0;
-                    for (int L = 0; L < initActivation.Length; L++)
+                    int count = 0;
+                    for (int i = 0; i < initActivation.Length; i++)
                     {
-                        for (int width = 0; width < architecture[L + 1]; width++)
+                        for (int j = 0; j < architecture[i + 1]; j++)
                         {
-                            nodeFuncs[index] = initActivation[L];
-                            index++;
+                            nodeFuncs[count] = initActivation[i];
+                            count++;
                         }
                     }
                 }
@@ -51,7 +55,7 @@ namespace NeuralNetworks
                 {
                     LogError.ActivationFunctions.InitLength(architecture, initActivation);
 
-                    return ActivationFuncs(architecture, DefaultActivation.ReLU);
+                    return ActivationFuncs(architecture, hiddenPopulation, DefaultActivation.ReLU);
                 }
             }
             else if (activationInit.GetType() == typeof(Activation[][]))
@@ -905,17 +909,27 @@ namespace NeuralNetworks
 
                 if (initWeights.GetType() == typeof(Func<double>[]))
                 {
+                    Func<double>[] weightFuncs = (Func<double>[])initWeights;
+
                     if (weightDepth == 2)
                     {
-
+                        for (int L = 1; L < architecture.Length; L++)
+                        {
+                            // To be tested at a later stage
+                        }
                     }
-
-                    if (weightDepth == 3)
+                    else if (weightDepth == 3)
                     {
+                        // To be tested at a later stage
+                    }
+                    else
+                    {
+                        LogError.Weights.DepthArgument(weightFuncs, weightDepth);
 
+                        return Weights(architecture, 1D);
                     }
 
-                    return Weights(architecture, weightInit, weightDepth);
+                    return (InsertWeightCoords(architecture, nodeWeights));
                 }
 
 
@@ -941,16 +955,21 @@ namespace NeuralNetworks
 
                     if (weightDepth == 2)
                     {
-
+                        // To be tested at a later stage
                     }
-
-                    if (weightDepth == 3)
+                    else if (weightDepth == 3)
                     {
+                        // To be tested at a later stage
+                    }
+                    else
+                    {
+                        LogError.Weights.DepthArgument(weightFuncs, weightDepth);
 
+                        return Weights(architecture, weightFuncs);
                     }
                 }
 
-
+                return InsertWeightCoords(architecture, nodeWeights);
             }
 
             return Weights(architecture, weightInit, weightDepth);

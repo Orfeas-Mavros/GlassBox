@@ -445,16 +445,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.Object, UnityEngine
-        m_MethodName: 
-        m_Mode: 5
+      - m_Target: {fileID: 380228828375958727, guid: 12924e8a9eebe144ba322001e40dff76, type: 3}
+        m_TargetAssemblyTypeName: UserInterfaceLogic, Assembly-CSharp
+        m_MethodName: MainMenuButton
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: NetworkEditor
+          m_StringArgument: MainMenuButton
           m_BoolArgument: 0
         m_CallState: 1
 --- !u!114 &765888759

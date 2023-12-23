@@ -26,8 +26,7 @@ namespace NeuralNetworks
         public double[] Biases { get; private set; }
         public Activation[] ActivationFuncs { get; private set; }
 
-        // The BackPropagation Calculus Gradient Array for Nodes, Weights and Biases.
-        public double[] NodeGradients { get; private set; }
+        // The BackPropagation Calculus Gradient Array for Weights and Biases.
         public double[] WeightGradients { get; private set; }
         public double[] BiasGradients { get; private set; }
         public double learningRate;
@@ -166,19 +165,19 @@ namespace NeuralNetworks
         }   
         public NeuralNet(string id, NetworkData networkData)
         {
-
+            // More advanced Import Methods, to be tested along with Database/Problem Space Import Methods.
         }
         public NeuralNet(NetworkData networkData)
         {
-
+            // More advanced Import Methods, to be tested along with Database/Problem Space Import Methods.
         }
         public NeuralNet(string id, NetworkSetupData networkSetupData)
         {
-
+            // More advanced Import Methods, to be tested along with Database/Problem Space Import Methods.
         }
         public NeuralNet(NetworkSetupData networkSetupData)
         {
-
+            // More advanced Import Methods, to be tested along with Database/Problem Space Import Methods.
         }
     }
 }

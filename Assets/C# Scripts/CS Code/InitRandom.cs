@@ -61,7 +61,7 @@ namespace NeuralNetworks
     // ~~~ // ~~~ // ~~~ // ~~~ // ~~~ // ~~~ //
 
 
-
+    /* NON-FUNCTIONAL for now, to be tested at a later stage (Optimization Methods)
     namespace InitFuncs
     {
         public static class Xavier
@@ -109,5 +109,5 @@ namespace NeuralNetworks
                 return output;
             }
         }
-    }
+    }*/
 }

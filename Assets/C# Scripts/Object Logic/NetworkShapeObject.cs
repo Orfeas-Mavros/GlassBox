@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NeuralNetworks;
 
 public class NetworkShapeObject : MonoBehaviour
 {
-    public int[] architecture;
+    public NeuralNet Network;
 
     public double maxSizeX;
     public double maxSizeY;
@@ -13,31 +14,28 @@ public class NetworkShapeObject : MonoBehaviour
 
     public GameObject nodePrefab;
     public GameObject weightPrefab;
-    private GameObject[][] nodes;
-    private GameObject[][] weights;
-    public Sprite threeDots;
-
+    
     public bool active;
 
     private int activeLayer = 0;
 
-    // Start is called before the first frame update
+
     void Start()
     {
-        nodes = new GameObject[architecture.Length][];
+        //nodes = new GameObject[Network.Architecture.Length][];
 
         int count = 0;
-        for (int L = 0; L < architecture.Length; L++)
+        for (int L = 0; L < Network.Architecture.Length; L++)
         {
-            for (int i = 0; i < architecture[i]; i++)
+            for (int i = 0; i < Network.Architecture[i]; i++)
             {
-                nodes[L][i] = Instantiate(nodePrefab);
+                //nodes[L][i] = Instantiate(nodePrefab);
                 
                 if (L != 0)
                 {
-                    for (int j = 0; j < architecture[L - 1]; j++)
+                    for (int j = 0; j < Network.Architecture[L - 1]; j++)
                     {
-                        weights[L - 1][count] = Instantiate(weightPrefab);
+                        //weights[L - 1][count] = Instantiate(weightPrefab);
                         count++;
                     }
                 }
@@ -45,12 +43,11 @@ public class NetworkShapeObject : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (active)
         {
-
+            // To be tested during the Training Method Stage of the Project.
         }
     }
 }

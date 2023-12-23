@@ -12,7 +12,7 @@ namespace NeuralNetworks
 
             if (inputs.Length != Architecture[0])
             {
-                Console.Write(id + ": ");
+                GiveName();
                 Console.WriteLine("Execution Error - Input does not correspond to the Network's Input Size.");
                 return;
             }
@@ -54,6 +54,8 @@ namespace NeuralNetworks
         }
 
 
+            // - Weight Methods - //
+
         private void OrderWeights(int order)
         {
             State = "Ordering Weights";
@@ -64,6 +66,12 @@ namespace NeuralNetworks
             if (order == 2)
             {
                 WeightMergeSort();
+                return;
+            }
+            if (order != 0 && order != 1)
+            {
+                GiveName();
+                Console.WriteLine("Sorting the Weights requires the vertical column of the  sorting values to be either 0, 1 or 2.");
                 return;
             }
 
@@ -201,19 +209,99 @@ namespace NeuralNetworks
                 {
                     for (int gNum = 0; gNum < Math.Floor(Math.Ceiling(Weights.GetLength(0) / (double)gLength) / 2); gNum++)
                     {
+                        int i = 0;
+                        int j = 0;
 
+                        int iIndex = gNum * gLength;
+                        int jIndex = (gNum + 1) * gLength;
+
+                        while (i != gLength || !(j == gLength || jIndex + j == Weights.GetLength(0)))
+                        {
+                            if (i == gLength)
+                            {
+                                Weights[count, 0] = auxiliaryArray[jIndex + j, 0];
+                                Weights[count, 1] = auxiliaryArray[jIndex + j, 1];
+                                Weights[count, 2] = auxiliaryArray[jIndex + j, 2];
+
+                                j++;
+                                count++;
+                            }
+                            else if (j == gLength || jIndex + j == Weights.GetLength(0))
+                            {
+                                Weights[count, 0] = auxiliaryArray[iIndex + i, 0];
+                                Weights[count, 1] = auxiliaryArray[iIndex + i, 1];
+                                Weights[count, 2] = auxiliaryArray[iIndex + i, 2];
+
+                                i++;
+                                count++;
+                            }
+                            else
+                            {
+                                if (Weights[iIndex + i, 2] >= Weights[jIndex + j, 2])
+                                {
+                                    Weights[count, 0] = auxiliaryArray[iIndex + i, 0];
+                                    Weights[count, 1] = auxiliaryArray[iIndex + i, 1];
+                                    Weights[count, 2] = auxiliaryArray[iIndex + i, 2];
+
+                                    i++;
+                                    count++;
+                                }
+                                else
+                                {
+                                    Weights[count, 0] = auxiliaryArray[jIndex + j, 0];
+                                    Weights[count, 1] = auxiliaryArray[jIndex + j, 1];
+                                    Weights[count, 2] = auxiliaryArray[jIndex + j, 2];
+
+                                    j++;
+                                    count++;
+                                }
+                            }
+                        }
                     }
                 }
             }
 
-            if (Math.Log(Weights.GetLength(0), 2) % 2 == 1)//???
+            if (Math.Ceiling(Math.Log(Weights.GetLength(0), 2)) % 2 == 1)
             {
-
+                for (int i = 0; i < Weights.GetLength(0); i++)
+                {
+                    Weights[i, 0] = auxiliaryArray[i, 0];
+                    Weights[i, 1] = auxiliaryArray[i, 1];
+                    Weights[i, 2] = auxiliaryArray[i, 2];
+                }
             }
-
 
             State = "Idle";
         }
+
+
+        /*private void ReverseWeights()
+        {
+            State = "Reversing Weights";
+
+            double[] tempWeight = new double[3];
+            int weightLength = Weights.GetLength(0);
+            int endIndex = weightLength - 1;
+
+            for (int i = 0; i < Math.Floor((decimal)(weightLength + 1) / 2); i++)
+            {
+                tempWeight[0] = Weights[i, 0];
+                tempWeight[1] = Weights[i, 1];
+                tempWeight[2] = Weights[i, 2];
+
+                Weights[i, 0] = Weights[endIndex, 0];
+                Weights[i, 1] = Weights[endIndex, 1];
+                Weights[i, 2] = Weights[endIndex, 2];
+
+                Weights[endIndex, 0] = tempWeight[0];
+                Weights[endIndex, 1] = tempWeight[1];
+                Weights[endIndex, 2] = tempWeight[2];
+
+                endIndex--;
+            }
+
+            State = "Idle";
+        }*/
 
 
             // - Learning Methods - //
@@ -224,6 +312,7 @@ namespace NeuralNetworks
 
             if (weightChange.Length != Weights.GetLength(0))
             {
+                GiveName();
                 Console.WriteLine("Adjusting Weights Failed: Gradient Array not of same length as Weight Array.");
                 return;
             }
@@ -241,6 +330,7 @@ namespace NeuralNetworks
 
             if (weightChange.GetLength(0) != Weights.GetLength(0))
             {
+                GiveName();
                 Console.WriteLine("Adjusting Weights Failed: Gradient Array not of same length as Weight Array.");
                 return;
             }
@@ -259,7 +349,9 @@ namespace NeuralNetworks
 
             if (biasChange.Length != Biases.Length)
             {
+                GiveName();
                 Console.WriteLine("Adjusting Biases Failed: Gradient Array not of same length as Bias Array.");
+                return;
             }
 
             for (int i = 0; i < biasChange.Length; i++)
@@ -273,11 +365,8 @@ namespace NeuralNetworks
 
         public void BackPropagate(double[] input, double[] ideal)
         {
-            State = "BackPropagating";
-
             Run(input);
-            Run(ideal); // Useless false line to shut up the Warning Message
-            CalcGradients();
+            CalcGradients(ideal);
 
             AdjustWeights(WeightGradients);
             AdjustBiases(BiasGradients);
@@ -285,9 +374,44 @@ namespace NeuralNetworks
             State = "Idle";
         }
 
-        public void CalcGradients()
+        public void CalcGradients(double[] ideal)
         {
+            State = "Calculating Gradients";
 
+            BiasGradients = new double[Biases.Length];
+            WeightGradients = new double[Weights.GetLength(0)];
+
+            OrderWeights(1);
+
+            int firstOutputIndex = Population - Architecture[^1];
+            for (int i = 0; i < ideal.Length; i++)
+            {
+                BiasGradients[firstOutputIndex + i] = 2 * (Nodes[firstOutputIndex + i] - ideal[i]);
+            }
+
+            int prevTarget = 0;
+            int currentTarget = 0;
+            int currentOrigin = 0;
+
+            for (int i = Weights.GetLength(0) - 1; i >= 0; i++)
+            {
+                currentOrigin = (int)Weights[i, 0];
+                currentTarget = (int)Weights[i, 1];
+
+                if (currentTarget != prevTarget)
+                {
+                    BiasGradients[currentTarget] *= ActivationFuncs[currentTarget].Derivative(Nodes[currentTarget]);
+
+                    prevTarget = currentTarget;
+                }
+
+                WeightGradients[i] = BiasGradients[currentTarget] * Nodes[currentOrigin];
+
+                BiasGradients[currentOrigin] += Weights[i, 2] * BiasGradients[currentTarget];
+            } // There's no way this works first try
+
+
+            State = "Idle";
         }
 
 
@@ -295,7 +419,7 @@ namespace NeuralNetworks
 
         public void Prune()
         {
-
+            // To be tested in the Optimization Methods phase.
         }
 
 
@@ -313,6 +437,14 @@ namespace NeuralNetworks
         public NeuralNet Twin(string newId) // Returns a Network with the same Initialization Parameters //
         {
             return new NeuralNet(newId, SetupData);
+        }
+
+
+            // - Debug Methods - //
+
+        public void GiveName()
+        {
+            Console.Write(id + " (" + State + "): ");
         }
     }
 }
