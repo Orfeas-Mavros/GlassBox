@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using NeuralNetworks;
 
 public class NetworkShapeObject : MonoBehaviour
 {
-    public NeuralNet Network;
+    public NetworkData Network;
 
     public double maxSizeX;
     public double maxSizeY;
@@ -15,9 +13,9 @@ public class NetworkShapeObject : MonoBehaviour
     public GameObject nodePrefab;
     public GameObject weightPrefab;
     
-    public bool active;
+    //public bool active;
 
-    private int activeLayer = 0;
+    //private int activeLayer = 0;
 
 
     void Start()
@@ -40,14 +38,6 @@ public class NetworkShapeObject : MonoBehaviour
                     }
                 }
             }
-        }
-    }
-
-    void Update()
-    {
-        if (active)
-        {
-            // To be tested during the Training Method Stage of the Project.
         }
     }
 }

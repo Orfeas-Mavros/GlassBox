@@ -1,16 +1,15 @@
 using System;
 using UnityEngine;
 using NeuralNetworks;
-using NetworkImportExport;
 
 public class TestCreator : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        Func<double> testFunc1 = new NeuralNetworks.RandFuncs.UniformDistribution(5, 6).GenerateRandom;
-        Func<double> testFunc2 = new NeuralNetworks.RandFuncs.UniformDistribution(7, 8).GenerateRandom;
-        Func<double> testFunc3 = new NeuralNetworks.RandFuncs.UniformDistribution(9, 10).GenerateRandom;
+        Func<double> testFunc1 = new NeuralNetworks.RandFuncs.UniformDistribution(5, 6).Generate;
+        Func<double> testFunc2 = new NeuralNetworks.RandFuncs.UniformDistribution(7, 8).Generate;
+        Func<double> testFunc3 = new NeuralNetworks.RandFuncs.UniformDistribution(9, 10).Generate;
 
         double weight = 1D;
         double[] weightArray1 = new double[5]
@@ -179,35 +178,6 @@ public class TestCreator : MonoBehaviour
                 new double[5] {99, 89, 79, 69, 59}
             }
         };
-        double[,] weightFalse2dLengthX = new double[66, 2]
-        {
-            { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 },
-            { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 },
-            { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 },
-            { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 },
-            { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 },
-            { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 },
-            { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 },
-            { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 },
-            { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 },
-            { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 },
-            { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 }, { 1, 5 }
-        };
-        double[,] weightFalse2dLengthY = new double[67, 3]
-        {
-            {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 },
-            {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 },
-            {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 },
-            {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 },
-            {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 },
-            {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 },
-            {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 },
-            {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 },
-            {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 },
-            {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 },
-            {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 }, {1, 3, 5 },
-            {1, 3, 5 }
-        };
 
 
 
@@ -290,9 +260,7 @@ public class TestCreator : MonoBehaviour
 
         int[] architecture = new int[6] { 2, 3, 4, 5, 4, 2 };
 
-        NeuralNet newNetwork = new NeuralNet("my man!", architecture, weight, bias, activation);
-
-        Debug.Log(Export.JSON(newNetwork));
+        NetworkData newNetwork = new NetworkData("my man!", architecture, weight, bias, activation);
     }
 
     // Update is called once per frame

@@ -1,12 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class UserInterfaceLogic : MonoBehaviour
 {
-    public void MainMenuButton()
+    public void ToNetworkEditor()
     {
         SceneManager.LoadScene("NetworkEditor");
+    }
+
+    public void ToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }

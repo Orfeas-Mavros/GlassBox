@@ -15,16 +15,18 @@ namespace NeuralNetworks
     }
 
 
+
     // ~~~ // ~~~ // ~~~ // ~~~ // ~~~ // ~~~ //
+
 
 
     public static class DefaultActivation
     {
-        public readonly static Activation BinaryStep;
-        public readonly static Activation ReLU;
-        public readonly static Activation LeakyReLU;
-        public readonly static Activation Sigmoid;
-        public readonly static Activation TanH;
+        public static readonly Activation BinaryStep;
+        public static readonly Activation ReLU;
+        public static readonly Activation LeakyReLU;
+        public static readonly Activation Sigmoid;
+        public static readonly Activation TanH;
 
         static DefaultActivation()
         {
